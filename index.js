@@ -6,6 +6,9 @@ import fastify from "fastify";
 import clientPromise from "./lib/db/mongodb.js";
 import { config } from "./config.js";
 
+const public_ip = process.env.PUBLIC_IP;
+const port = process.env.PORT;
+
 const app = Fastify({
   logger: true,
 });
@@ -23,6 +26,7 @@ app.get("/", (request, response) => {
   // app.io.emit("Hello World!");
   console.log({ ip: request.socket.remoteAddress });
   console.log("OI");
+  return { data: "Hello World!", err: null };
 });
 
 // app.get("/chat/:roomId", handleChatRoom);
@@ -99,6 +103,4 @@ app.ready((err) => {
   });
 });
 
-app.listen({
-  port: 3000,
-});
+app.listen(port || 3000, public_ip || "0.0.0.0");
