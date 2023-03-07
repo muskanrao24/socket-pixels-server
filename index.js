@@ -1,5 +1,4 @@
 import Fastify from "fastify";
-import { handleChatRoom } from "./controllers/chat.js";
 import socketioServer from "fastify-socket.io";
 import cors from "@fastify/cors";
 import { find, getLocalDatabase, insertOne } from "./lib/db/tingodb.js";
@@ -53,8 +52,6 @@ app.post("/createroom", async (request, response) => {
     data: { roomId: newRoom._id, expiresAt: newRoom.expiresAt },
   };
 });
-
-// app.get("/chat/:roomId", handleChatRoom);
 
 app.ready(async (err) => {
   if (err) throw err;
