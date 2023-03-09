@@ -33,10 +33,16 @@ app.get("/", (request, response) => {
 
 app.post("/createroom", async (request, response) => {
   console.log({ body: request.body });
+  let reqBody = JSON.parse(request.body);
   let newRoom = await insertOne(roomCollection, {
+    // TODO: Add default values to these
+    /// TODO: Add type checking here to check if all the colors are valid
+    colors: reqBody.colors,
     pixels: {},
     users: {},
+    gridSize: { row: reqBody.gridSize.row, column: reqBody.gridSize.column },
     expiresAt: new Date(),
+    timeout: reqBody.timeout,
   });
   if (!newRoom) {
     console.info("Save unsuccessful");
