@@ -4,11 +4,20 @@ import cors from "@fastify/cors";
 import { find, getLocalDatabase, insertOne } from "./lib/db/tingodb.js";
 import ObjectID from "tingodb/lib/ObjectId.js";
 import { RoomHandler } from "./lib/room-utils.js";
+import fs from "fs";
 
 const public_ip = process.env.PUBLIC_IP;
 const port = process.env.PORT;
 
-let db = getLocalDatabase();
+const dataDir = "./data/tingo";
+
+// Check if the data directory exists
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+  console.log("Created data directory");
+}
+
+let db = getLocalDatabase(dataDir);
 let roomCollection = db.collection("rooms");
 
 const app = Fastify({
